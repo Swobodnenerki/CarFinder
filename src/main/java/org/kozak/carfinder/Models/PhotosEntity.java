@@ -1,5 +1,8 @@
 package org.kozak.carfinder.Models;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,6 +10,7 @@ import javax.persistence.*;
 public class PhotosEntity {
     private Integer id;
     private String url;
+    private AdvertEntity  advertByAdvertid;
 
     @Id
     @SequenceGenerator(name="photos_id_seq", sequenceName="photos_seq", allocationSize=1)
@@ -48,5 +52,15 @@ public class PhotosEntity {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (url != null ? url.hashCode() : 0);
         return result;
+    }
+    @OneToOne
+    @JoinColumn(name = "advert_id", referencedColumnName = "id", nullable = false)
+    @NotFound(action= NotFoundAction.IGNORE)
+    public AdvertEntity getAdvertByAdvertid() {
+        return advertByAdvertid;
+    }
+
+    public void setAdvertByAdvertid(AdvertEntity advertByAdvertid) {
+        this.advertByAdvertid = advertByAdvertid;
     }
 }

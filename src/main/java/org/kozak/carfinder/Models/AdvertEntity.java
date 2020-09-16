@@ -1,5 +1,8 @@
 package org.kozak.carfinder.Models;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
 
 @Entity
@@ -15,6 +18,7 @@ public class AdvertEntity {
     private String trim;
     private String colour;
     private String price;
+    private DealerEntity dealerByDealerid;
 
     @Id
     @SequenceGenerator(name="advert_id_seq", sequenceName="advert_id_seq", allocationSize=1)
@@ -152,5 +156,15 @@ public class AdvertEntity {
         result = 31 * result + (colour != null ? colour.hashCode() : 0);
         result = 31 * result + (price != null ? price.hashCode() : 0);
         return result;
+    }
+    @OneToOne
+    @JoinColumn(name = "dealer_id", referencedColumnName = "id", nullable = false)
+    @NotFound(action= NotFoundAction.IGNORE)
+    public DealerEntity getDealerByDealerid() {
+        return dealerByDealerid;
+    }
+
+    public void setDealerByDealerid(DealerEntity dealerByDealerid) {
+        this.dealerByDealerid = dealerByDealerid;
     }
 }

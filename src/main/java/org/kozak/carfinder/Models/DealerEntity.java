@@ -1,5 +1,8 @@
 package org.kozak.carfinder.Models;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,6 +13,7 @@ public class DealerEntity {
     private String city;
     private String street;
     private Integer streetNumber;
+    private UsersEntity usersByUserid;
 
     @Id
     @SequenceGenerator(name="dealer_id_seq", sequenceName="dealer_seq", allocationSize=1)
@@ -87,5 +91,15 @@ public class DealerEntity {
         result = 31 * result + (street != null ? street.hashCode() : 0);
         result = 31 * result + (streetNumber != null ? streetNumber.hashCode() : 0);
         return result;
+    }
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    @NotFound(action= NotFoundAction.IGNORE)
+    public UsersEntity getUsersByUserid() {
+        return usersByUserid;
+    }
+
+    public void setUsersByUserid(UsersEntity usersByUserid) {
+        this.usersByUserid = usersByUserid;
     }
 }

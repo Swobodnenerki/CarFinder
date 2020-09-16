@@ -1,5 +1,8 @@
 package org.kozak.carfinder.Models;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,6 +10,7 @@ import javax.persistence.*;
 public class RolesEntity {
     private Integer id;
     private String role;
+    private AccountEntity accountByAccountid;
 
     @Id
     @SequenceGenerator(name="roles_id_seq", sequenceName="roles_seq", allocationSize=1)
@@ -48,5 +52,15 @@ public class RolesEntity {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (role != null ? role.hashCode() : 0);
         return result;
+    }
+    @OneToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
+    @NotFound(action= NotFoundAction.IGNORE)
+    public AccountEntity getAccountByAccountid() {
+        return accountByAccountid;
+    }
+
+    public void setAccountByAccountid(AccountEntity accountByAccountid) {
+        this.accountByAccountid = accountByAccountid;
     }
 }

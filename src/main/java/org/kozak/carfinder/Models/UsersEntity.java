@@ -1,6 +1,11 @@
 package org.kozak.carfinder.Models;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users", schema = "public", catalog = "Carfinder")
@@ -10,6 +15,7 @@ public class UsersEntity {
     private String lastName;
     private String email;
     private String phone;
+    private AccountEntity accountByAccountid;
 
     @Id
     @SequenceGenerator(name="users_id_seq", sequenceName="users_seq", allocationSize=1)
@@ -88,4 +94,15 @@ public class UsersEntity {
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
         return result;
     }
+    @OneToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
+    @NotFound(action= NotFoundAction.IGNORE)
+    public AccountEntity getAccountByAccountid() {
+        return accountByAccountid;
+    }
+
+    public void setAccountByAccountid(AccountEntity accountByAccountid) {
+        this.accountByAccountid = accountByAccountid;
+    }
+
 }
