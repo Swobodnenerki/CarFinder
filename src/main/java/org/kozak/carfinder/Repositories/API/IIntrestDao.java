@@ -1,0 +1,18 @@
+package org.kozak.carfinder.Repositories.API;
+
+import org.kozak.carfinder.Models.AdvertEntity;
+import org.kozak.carfinder.Models.AccountEntity;
+import org.kozak.carfinder.Models.IntrestEntity;
+import org.kozak.carfinder.Models.UsersEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+
+@Repository
+@Transactional
+public interface IIntrestDao extends JpaRepository<IntrestEntity, Integer> {
+    ArrayList<IntrestEntity> findAllByUsersByUserid(UsersEntity user);
+    ArrayList<IntrestEntity> findAllByAdvertByAdvertid(AdvertEntity advert);
+}
