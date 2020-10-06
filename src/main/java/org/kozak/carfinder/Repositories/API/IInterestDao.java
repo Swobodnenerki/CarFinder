@@ -1,8 +1,7 @@
 package org.kozak.carfinder.Repositories.API;
 
 import org.kozak.carfinder.Models.AdvertEntity;
-import org.kozak.carfinder.Models.AccountEntity;
-import org.kozak.carfinder.Models.IntrestEntity;
+import org.kozak.carfinder.Models.InterestEntity;
 import org.kozak.carfinder.Models.UsersEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 
 @Repository
 @Transactional
-public interface IIntrestDao extends JpaRepository<IntrestEntity, Integer> {
-    ArrayList<IntrestEntity> findAllByUsersByUserid(UsersEntity user);
-    ArrayList<IntrestEntity> findAllByAdvertByAdvertid(AdvertEntity advert);
+public interface IInterestDao extends JpaRepository<InterestEntity, Integer> {
+    ArrayList<InterestEntity> findAllByUsersByUserid(UsersEntity user);
+    ArrayList<InterestEntity> findAllByAdvertByAdvertid(AdvertEntity advert);
 }

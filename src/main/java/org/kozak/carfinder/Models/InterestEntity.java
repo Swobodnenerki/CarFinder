@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "intrest", schema = "public", catalog = "Carfinder")
-public class IntrestEntity {
+public class InterestEntity {
     private Integer id;
     private UsersEntity usersByUserid;
     private AdvertEntity advertByAdvertid;
@@ -29,7 +29,7 @@ public class IntrestEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        IntrestEntity that = (IntrestEntity) o;
+        InterestEntity that = (InterestEntity) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
 
