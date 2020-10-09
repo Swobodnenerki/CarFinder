@@ -4,7 +4,6 @@ import org.kozak.carfinder.Models.AccountEntity;
 import org.kozak.carfinder.Models.UsersEntity;
 import org.kozak.carfinder.Models.RolesEntity;
 import org.kozak.carfinder.Models.UserDetailsImplementation;
-import org.kozak.carfinder.Models.UsersEntity;
 import org.kozak.carfinder.Repositories.API.IRolesDao;
 import org.kozak.carfinder.Repositories.API.IAccountDao;
 import org.kozak.carfinder.Repositories.API.IUsersDao;

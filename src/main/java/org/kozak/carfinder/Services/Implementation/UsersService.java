@@ -35,6 +35,7 @@ public class UsersService implements IUsersService {
         AccountEntity account = new AccountEntity();
         account.setLogin(usersDto.getLogin());
         account.setPassword(passwordEncoder.encode(usersDto.getPassword()));
+        account.setPassword(usersDto.getPassword());
         accountsDao.save(account);
         this.registerUserWithUserData(usersDto.getEmail(),usersDto.getFirstName(), usersDto.getLastName(), usersDto.getPhone(), account);
         this.registerUserSetRole(account);

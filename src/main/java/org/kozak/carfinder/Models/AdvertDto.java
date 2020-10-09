@@ -10,7 +10,7 @@ public class AdvertDto {
     String gearBox;
     String trim;
     String colour;
-    String price;
+    double price;
     int dealerId;
     int photoId;
     String url;
@@ -50,7 +50,7 @@ public class AdvertDto {
         return colour;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -103,7 +103,7 @@ public class AdvertDto {
         this.colour = colour;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

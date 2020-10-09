@@ -32,7 +32,13 @@ public class AdvertService implements IAdvertService{
 
     @Override
     public ArrayList<AdvertEntity> getAdverts(String brand, String model, String type, String fuel_type, String engine, String gearbox, String trim, String colour) {
-        return advertDao.findAllByBrandAndModelAndTypeAndFuelTypeAndEngineAndGearboxAndTrimAndColour(brand, model, type, fuel_type, engine, gearbox, trim, colour);
+        ArrayList<AdvertEntity> sortedAdverts = new ArrayList<>();
+        ArrayList<AdvertEntity> adverts = advertDao.findAllByBrandAndModelAndTypeAndFuelTypeAndEngineAndGearboxAndTrimAndColour(brand, model, type, fuel_type, engine, gearbox, trim, colour);
+        for(AdvertEntity advert: adverts
+        ){
+            sortedAdverts.add(advert);
+        }
+        return sortedAdverts;
     }
 
     @Override
