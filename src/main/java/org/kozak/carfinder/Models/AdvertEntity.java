@@ -1,7 +1,5 @@
 package org.kozak.carfinder.Models;
 
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 
@@ -17,7 +15,7 @@ public class AdvertEntity {
     private String gearbox;
     private String trim;
     private String colour;
-    private String price;
+    private double price;
     private DealerEntity dealerByDealerid;
 
     @Id
@@ -114,11 +112,11 @@ public class AdvertEntity {
 
     @Basic
     @Column(name = "price", nullable = false, length = 10)
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -138,7 +136,7 @@ public class AdvertEntity {
         if (gearbox != null ? !gearbox.equals(that.gearbox) : that.gearbox != null) return false;
         if (trim != null ? !trim.equals(that.trim) : that.trim != null) return false;
         if (colour != null ? !colour.equals(that.colour) : that.colour != null) return false;
-        if (price != null ? !price.equals(that.price) : that.price != null) return false;
+        if(price != that.price) return false;
 
         return true;
     }
@@ -154,12 +152,11 @@ public class AdvertEntity {
         result = 31 * result + (gearbox != null ? gearbox.hashCode() : 0);
         result = 31 * result + (trim != null ? trim.hashCode() : 0);
         result = 31 * result + (colour != null ? colour.hashCode() : 0);
-        result = 31 * result + (price != null ? price.hashCode() : 0);
+        result = result + (int)price;
         return result;
     }
     @OneToOne
     @JoinColumn(name = "dealer_id", referencedColumnName = "id", nullable = false)
-    @NotFound(action= NotFoundAction.IGNORE)
     public DealerEntity getDealerByDealerid() {
         return dealerByDealerid;
     }

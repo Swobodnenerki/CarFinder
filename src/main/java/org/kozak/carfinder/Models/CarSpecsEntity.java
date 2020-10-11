@@ -14,7 +14,7 @@ public class CarSpecsEntity {
     private String gearbox;
     private String trim;
     private String colour;
-    private String price;
+    private double price;
 
     @Id
     @SequenceGenerator(name="car_specs_id_seq", sequenceName="car_specs_seq", allocationSize=1)
@@ -110,11 +110,11 @@ public class CarSpecsEntity {
 
     @Basic
     @Column(name = "price", nullable = false, length = 10)
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -134,7 +134,7 @@ public class CarSpecsEntity {
         if (gearbox != null ? !gearbox.equals(that.gearbox) : that.gearbox != null) return false;
         if (trim != null ? !trim.equals(that.trim) : that.trim != null) return false;
         if (colour != null ? !colour.equals(that.colour) : that.colour != null) return false;
-        if (price != null ? !price.equals(that.price) : that.price != null) return false;
+        if(price != that.price) return false;
 
         return true;
     }
@@ -150,7 +150,7 @@ public class CarSpecsEntity {
         result = 31 * result + (gearbox != null ? gearbox.hashCode() : 0);
         result = 31 * result + (trim != null ? trim.hashCode() : 0);
         result = 31 * result + (colour != null ? colour.hashCode() : 0);
-        result = 31 * result + (price != null ? price.hashCode() : 0);
+        result = result + (int)price;
         return result;
     }
 }
