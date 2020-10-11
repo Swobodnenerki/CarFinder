@@ -1,7 +1,5 @@
 package org.kozak.carfinder.Models;
 
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 
@@ -159,7 +157,6 @@ public class AdvertEntity {
     }
     @OneToOne
     @JoinColumn(name = "dealer_id", referencedColumnName = "id", nullable = false)
-    @NotFound(action= NotFoundAction.IGNORE)
     public DealerEntity getDealerByDealerid() {
         return dealerByDealerid;
     }

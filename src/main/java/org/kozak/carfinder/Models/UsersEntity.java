@@ -1,8 +1,5 @@
 package org.kozak.carfinder.Models;
 
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -96,7 +93,6 @@ public class UsersEntity {
     }
     @OneToOne
     @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
-    @NotFound(action= NotFoundAction.IGNORE)
     public AccountEntity getAccountByAccountid() {
         return accountByAccountid;
     }

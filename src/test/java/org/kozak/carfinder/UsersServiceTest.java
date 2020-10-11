@@ -5,7 +5,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kozak.carfinder.Models.*;
+import org.kozak.carfinder.Repositories.API.IDealerDao;
 import org.kozak.carfinder.Repositories.API.IRolesDao;
+import org.kozak.carfinder.Services.Implementation.DealerService;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -35,13 +37,19 @@ public class UsersServiceTest {
     private IAccountDao accountDao;
     @Mock
     private IRolesDao rolesDao;
+    @Mock
+    private IDealerDao dealerDao;
     @InjectMocks
     private UsersService usersService;
+    @InjectMocks
+    private DealerService dealerService;
 
+    DealerEntity dealer;
     UsersEntity user;
     AccountEntity account;
     RolesEntity role;
     UsersDto usersDto;
+    DealerDto dealerDto;
 
     @Before
     public void setUp()
@@ -58,6 +66,13 @@ public class UsersServiceTest {
         user.setAccountByAccountid(account);
         role = new RolesEntity();
         role.setAccountByAccountid(account);
+        dealer = new DealerEntity();
+        dealer.setName("MB Motors");
+        dealer.setCity("Warsaw");
+        dealer.setStreet("Pulawska");
+        dealer.setStreetNumber(34);
+        dealer.setUsersByUserid(user);
+
 
 
 
@@ -71,6 +86,12 @@ public class UsersServiceTest {
         usersDto.setPhone("123123123");
         usersDto.setAccountId(1);
         usersDto.setUserId(1);
+        dealerDto = new DealerDto();
+        dealerDto.setName("MB Motors");
+        dealerDto.setCity("Warsaw");
+        dealerDto.setStreet("Pulawska");
+        dealerDto.setStreetNumber(34);
+        dealerDto.setDealerId(1);
 
 
     }
@@ -84,6 +105,15 @@ public class UsersServiceTest {
 
         int result = usersService.registerNewUser(usersDto);
 
+        assertEquals(result, Const.registrationSuccess);
+    }
+    @Test
+    public void testRegisterNewDealer(){
+        when(accountDao.findAccountEntitiesByLogin(any(String.class))).thenReturn(null);
+        when(usersDao.findUsersEntitiesByEmail(any())).thenReturn(null);
+        when(usersDao.save(any())).thenReturn(user);
+        when(accountDao.save(any(AccountEntity.class))).thenReturn(account);
+        int result = dealerService.registerNewDealer(usersDto, dealerDto);
         assertEquals(result, Const.registrationSuccess);
     }
 

@@ -18,10 +18,6 @@ public class UserDetailsImplementation implements UserDetails {
 
         this.login = account.getLogin();
         this.password = account.getPassword();
-        if(role.equals("USER"))
-            enabled=false;
-        else
-            enabled=true;
 
         this.authority = new SimpleGrantedAuthority(role);
         this.accountEntity = account;
@@ -58,7 +54,7 @@ public class UserDetailsImplementation implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return true;
     }
 
     public AccountEntity getUserAccountsEntity() {

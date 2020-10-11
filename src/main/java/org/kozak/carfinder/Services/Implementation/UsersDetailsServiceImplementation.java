@@ -9,6 +9,7 @@ import org.kozak.carfinder.Repositories.API.IAccountDao;
 import org.kozak.carfinder.Repositories.API.IUsersDao;
 import org.kozak.carfinder.Repositories.API.IDealerDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class UsersDetailsServiceImplementation implements UserDetailsService {
 
-    @Autowired
     IUsersDao userDao;
 
     @Autowired
@@ -28,6 +28,11 @@ public class UsersDetailsServiceImplementation implements UserDetailsService {
 
     @Autowired
     IRolesDao rolesDao;
+
+    @Autowired
+    public UsersDetailsServiceImplementation(IUsersDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String userLogin) throws UsernameNotFoundException {

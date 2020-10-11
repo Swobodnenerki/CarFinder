@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,13 +33,15 @@ public class AdvertService implements IAdvertService{
 
     @Override
     public ArrayList<AdvertEntity> getAdverts(String brand, String model, String type, String fuel_type, String engine, String gearbox, String trim, String colour) {
-        ArrayList<AdvertEntity> sortedAdverts = new ArrayList<>();
         ArrayList<AdvertEntity> adverts = advertDao.findAllByBrandAndModelAndTypeAndFuelTypeAndEngineAndGearboxAndTrimAndColour(brand, model, type, fuel_type, engine, gearbox, trim, colour);
-        for(AdvertEntity advert: adverts
-        ){
-            sortedAdverts.add(advert);
-        }
-        return sortedAdverts;
+        adverts.sort(new Comparator<AdvertEntity>() {
+            @Override
+            public int compare(AdvertEntity lhs, AdvertEntity rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                return lhs.getPrice() > rhs.getPrice() ? -1 : (lhs.getPrice() < rhs.getPrice()) ? 1 : 0;
+            }
+        });
+        return adverts;
     }
 
     @Override
