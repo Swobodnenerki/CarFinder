@@ -23,6 +23,12 @@ public class InterestService implements IInterestService {
     IAdvertDao advertDao;
 
     @Override
+    public ArrayList<InterestEntity> getInterestByAdvertId(int advertId) {
+        AdvertEntity advert = advertDao.getOne(advertId);
+        return interestDao.findAllByAdvertByAdvertid(advert);
+    }
+
+    @Override
     public ArrayList<InterestEntity> getInterestByUserId(int userId) {
         UsersEntity user = usersDao.getOne(userId);
         return interestDao.findAllByUsersByUserid(user);

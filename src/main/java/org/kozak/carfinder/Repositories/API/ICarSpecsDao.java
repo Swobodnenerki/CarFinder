@@ -10,6 +10,7 @@ import java.util.ArrayList;
 @Repository
 @Transactional
 public interface ICarSpecsDao extends JpaRepository<CarSpecsEntity, Integer> {
+    ArrayList<CarSpecsEntity> findAll();
     ArrayList<CarSpecsEntity> findAllByBrand(String brand);
     ArrayList<CarSpecsEntity> findAllByBrandAndModel(String brand, String model);
     ArrayList<CarSpecsEntity> findAllByBrandAndModelAndType(String brand, String model, String type);

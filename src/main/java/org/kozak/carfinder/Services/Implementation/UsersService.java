@@ -81,4 +81,18 @@ public class UsersService implements IUsersService {
     public int updateUserDetails(UsersDto usersDto) {
         return 0;
     }
+
+    @Override
+    public UsersDto getUserById(int id) {
+        UsersDto usersDto = new UsersDto();
+        Optional<UsersEntity> user = usersDao.findById(id);
+        if(user.isEmpty()) return null;
+        usersDto.setUserId(user.get().getId());
+        usersDto.setFirstName(user.get().getFirstName());
+        usersDto.setLastName(user.get().getLastName());
+        usersDto.setPhone(user.get().getPhone());
+        usersDto.setEmail(user.get().getEmail());
+        usersDto.setAccountId(user.get().getAccountByAccountid().getId());
+        return usersDto;
+    }
 }

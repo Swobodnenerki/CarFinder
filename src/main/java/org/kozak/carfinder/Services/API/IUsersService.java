@@ -14,4 +14,5 @@ public interface IUsersService {
     void deleteAccount(AccountEntity account);
     int updateAccountDetails(String login, String password, AccountEntity account);
     int updateUserDetails(UsersDto usersDto);
+    UsersDto getUserById(int id);
 }

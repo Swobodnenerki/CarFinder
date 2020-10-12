@@ -15,6 +15,11 @@ public class CarSpecsService implements ICarSpecsService {
     ICarSpecsDao carSpecsDao;
 
     @Override
+    public ArrayList<CarSpecsEntity> getCarSpecs() {
+        return carSpecsDao.findAll();
+    }
+
+    @Override
     public ArrayList<CarSpecsEntity> getCarSpecsByBrand(String brand) {
         return carSpecsDao.findAllByBrand(brand);
     }
