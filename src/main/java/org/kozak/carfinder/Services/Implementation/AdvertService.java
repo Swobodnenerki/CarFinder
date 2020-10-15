@@ -1,10 +1,7 @@
 package org.kozak.carfinder.Services.Implementation;
 
 import org.kozak.carfinder.Models.*;
-import org.kozak.carfinder.Repositories.API.IAdvertDao;
-import org.kozak.carfinder.Repositories.API.IInterestDao;
-import org.kozak.carfinder.Repositories.API.IUsersDao;
-import org.kozak.carfinder.Repositories.API.IDealerDao;
+import org.kozak.carfinder.Repositories.API.*;
 import org.kozak.carfinder.Services.API.IAdvertService;
 import org.kozak.carfinder.Services.Const;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +28,9 @@ public class AdvertService implements IAdvertService{
     @Autowired
     IDealerDao dealerDao;
 
+    @Autowired
+    IPhotosDao photosDao;
+
     @Override
     public ArrayList<AdvertEntity> getAdverts(String brand, String model, String type, String fuel_type, String engine, String gearbox, String trim, String colour) {
         ArrayList<AdvertEntity> adverts = advertDao.findAllByBrandAndModelAndTypeAndFuelTypeAndEngineAndGearboxAndTrimAndColour(brand, model, type, fuel_type, engine, gearbox, trim, colour);
@@ -46,7 +46,8 @@ public class AdvertService implements IAdvertService{
 
     @Override
     public AdvertEntity getAdvertById(int id) {
-        return advertDao.getOne(id);
+//        return advertDao.getOne(id);
+        return advertDao.findById(id).get();
     }
 
     @Override
@@ -75,17 +76,22 @@ public class AdvertService implements IAdvertService{
         AdvertEntity advert = new AdvertEntity();
         DealerEntity dealer = dealerDao.getOne(advertDto.getDealerId());
         advert.setBrand(advertDto.getBrand());
-        advert.setBrand(advertDto.getModel());
+        advert.setModel(advertDto.getModel());
         advert.setType(advertDto.getType());
         advert.setFuelType(advertDto.getFuelType());
         advert.setEngine(advertDto.getEngine());
         advert.setGearbox(advertDto.getGearBox());
         advert.setTrim(advertDto.getTrim());
         advert.setPrice(advertDto.getPrice());
+        advert.setColour(advertDto.getColour());
         advert.setDealerByDealerid(dealer);
         AdvertEntity temp = advertDao.save(advert);
-        PhotoService photo = new PhotoService();
-        photo.addPhoto(advertDto.getUrl(),advert);
+//        PhotoService photo = new PhotoService();
+        PhotosEntity photo = new PhotosEntity();
+        photo.setUrl(advertDto.getUrl());
+        photo.setAdvertByAdvertid(advert);
+        photosDao.save(photo);
+//        photo.addPhoto(advertDto.getUrl(),advert);
         return temp.getId();
     }
 

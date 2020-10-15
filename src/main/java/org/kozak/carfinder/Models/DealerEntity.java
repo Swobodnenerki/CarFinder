@@ -14,7 +14,7 @@ public class DealerEntity {
     private UsersEntity usersByUserid;
 
     @Id
-    @SequenceGenerator(name="dealer_id_seq", sequenceName="dealer_seq", allocationSize=1)
+    @SequenceGenerator(name="dealer_id_seq", sequenceName="dealer_id_seq", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="dealer_id_seq")
     @Column(name = "id", nullable = false)
     public Integer getId() {

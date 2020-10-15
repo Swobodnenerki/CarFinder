@@ -35,10 +35,20 @@ public class UsersService implements IUsersService {
         AccountEntity account = new AccountEntity();
         account.setLogin(usersDto.getLogin());
         account.setPassword(passwordEncoder.encode(usersDto.getPassword()));
-        account.setPassword(usersDto.getPassword());
         accountsDao.save(account);
+//        UsersEntity user = new UsersEntity();
+//        user.setEmail(usersDto.getEmail());
+//        user.setFirstName(usersDto.getFirstName());
+//        user.setLastName(usersDto.getLastName());
+//        user.setPhone(usersDto.getPhone());
+//        user.setAccountByAccountid(account);
+//        usersDao.save(user);
         this.registerUserWithUserData(usersDto.getEmail(),usersDto.getFirstName(), usersDto.getLastName(), usersDto.getPhone(), account);
         this.registerUserSetRole(account);
+//        RolesEntity role = new RolesEntity();
+//        role.setRole("user");
+//        role.setAccountByAccountid(account);
+//        rolesDao.save(role);
         return Const.registrationSuccess;
     }
 

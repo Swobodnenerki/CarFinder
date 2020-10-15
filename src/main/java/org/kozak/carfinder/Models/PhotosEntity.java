@@ -11,7 +11,7 @@ public class PhotosEntity {
     private AdvertEntity  advertByAdvertid;
 
     @Id
-    @SequenceGenerator(name="photos_id_seq", sequenceName="photos_seq", allocationSize=1)
+    @SequenceGenerator(name="photos_id_seq", sequenceName="photos_id_seq", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="photos_id_seq")
     @Column(name = "id", nullable = false)
     public Integer getId() {

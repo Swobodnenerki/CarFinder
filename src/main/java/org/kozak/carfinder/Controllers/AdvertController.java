@@ -15,7 +15,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("api/adverts")
+@RequestMapping("/api/adverts")
 public class AdvertController {
 
     @Autowired
@@ -26,6 +26,7 @@ public class AdvertController {
         AdvertEntity advert = advertService.getAdvertById(id);
         if(advert == null) throw new AdvertNotFoundException("There is no such advert");
         return advert;
+//        return advertService.getAdvertById(id);
     }
 
     @GetMapping("/byBrand/byModel/byType/byFuelType/byEngine/byGearbox/byTrim/byColour/{brand}/{model}/{type}/{fuelType}/{engine}/{gearbox}/{trim}/{colour}")
