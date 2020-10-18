@@ -29,14 +29,23 @@ public class AdvertController {
 //        return advertService.getAdvertById(id);
     }
 
-    @GetMapping("/byBrand/byModel/byType/byFuelType/byEngine/byGearbox/byTrim/byColour/{brand}/{model}/{type}/{fuelType}/{engine}/{gearbox}/{trim}/{colour}")
+    @GetMapping("/2/byBrand/byModel/byType/byFuelType/byEngine/byGearbox/byTrim/byColour/{brand}/{model}/{type}/{fuelType}/{engine}/{gearbox}/{trim}/{colour}")
     public ArrayList<AdvertEntity> getAdverts(@PathVariable("brand") String brand, @PathVariable("model") String model, @PathVariable("type") String type, @PathVariable("fuelType") String fuelType, @PathVariable("engine") String engine, @PathVariable("gearbox") String gearbox, @PathVariable("trim") String trim, @PathVariable("colour") String colour){
         return advertService.getAdverts(brand, model, type, fuelType, engine, gearbox, trim, colour);
     }
 
-    @GetMapping("/interested/{id}")
+    @GetMapping("/byBrand/byModel/byType/byFuelType/byEngine/byGearbox/byTrim/byColour/{brand}/{model}/{type}/{fuelType}/{engine}/{gearbox}/{trim}/{colour}")
+    public ArrayList<AdvertDto> getAdvertsWithPhotos(@PathVariable("brand") String brand, @PathVariable("model") String model, @PathVariable("type") String type, @PathVariable("fuelType") String fuelType, @PathVariable("engine") String engine, @PathVariable("gearbox") String gearbox, @PathVariable("trim") String trim, @PathVariable("colour") String colour){
+        return advertService.getAdvertsWithPhotos(brand, model, type, fuelType, engine, gearbox, trim, colour);
+    }
+
+    @GetMapping("/interested/2/{id}")
     public List<AdvertEntity> getAdvertByUserInterest(@PathVariable int id){
         return advertService.getAdvertByUserInterest(id);
+    }
+    @GetMapping("/interested/{id}")
+    public ArrayList<AdvertDto> getAdvertByUserInterestWithPhotos(@PathVariable int id){
+        return advertService.getAdvertByUserInterestWithPhotos(id);
     }
 
     @PostMapping("/dealer")

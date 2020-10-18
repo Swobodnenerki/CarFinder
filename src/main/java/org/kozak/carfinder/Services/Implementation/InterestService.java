@@ -24,13 +24,13 @@ public class InterestService implements IInterestService {
 
     @Override
     public ArrayList<InterestEntity> getInterestByAdvertId(int advertId) {
-        AdvertEntity advert = advertDao.getOne(advertId);
+        AdvertEntity advert = advertDao.findById(advertId).get();
         return interestDao.findAllByAdvertByAdvertid(advert);
     }
 
     @Override
     public ArrayList<InterestEntity> getInterestByUserId(int userId) {
-        UsersEntity user = usersDao.getOne(userId);
+        UsersEntity user = usersDao.findById(userId).get();
         return interestDao.findAllByUsersByUserid(user);
     }
 

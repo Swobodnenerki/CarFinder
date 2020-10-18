@@ -27,8 +27,10 @@ public class PhotoService implements IPhotoService {
         Optional<AdvertEntity> advert = advertDao.findById(id);
         if(advert.isEmpty()) return null;
         ArrayList<PhotosEntity> photos = photosDao.findAllByAdvertByAdvertid(advert.get());
+        if(photos == null) return null;
         return photos.get(0);
     }
+
 
     @Override
     public PhotosEntity getPhotoById(int id) {

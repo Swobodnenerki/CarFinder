@@ -7,7 +7,7 @@ public class AdvertDto {
     String type;
     String fuelType;
     String engine;
-    String gearBox;
+    String gearbox;
     String trim;
     String colour;
     double price;
@@ -38,8 +38,8 @@ public class AdvertDto {
         return engine;
     }
 
-    public String getGearBox() {
-        return gearBox;
+    public String getGearbox() {
+        return gearbox;
     }
 
     public String getTrim() {
@@ -91,8 +91,8 @@ public class AdvertDto {
         this.engine = engine;
     }
 
-    public void setGearBox(String gearBox) {
-        this.gearBox = gearBox;
+    public void setGearbox(String gearbox) {
+        this.gearbox = gearbox;
     }
 
     public void setTrim(String trim) {

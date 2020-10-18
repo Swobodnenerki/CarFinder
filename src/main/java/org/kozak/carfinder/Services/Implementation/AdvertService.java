@@ -3,11 +3,11 @@ package org.kozak.carfinder.Services.Implementation;
 import org.kozak.carfinder.Models.*;
 import org.kozak.carfinder.Repositories.API.*;
 import org.kozak.carfinder.Services.API.IAdvertService;
-import org.kozak.carfinder.Services.Const;
+import org.kozak.carfinder.Services.API.IPhotoService;
+import org.kozak.carfinder.Services.Implementation.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -31,6 +31,9 @@ public class AdvertService implements IAdvertService{
     @Autowired
     IPhotosDao photosDao;
 
+    @Autowired
+    PhotoService photoService;
+
     @Override
     public ArrayList<AdvertEntity> getAdverts(String brand, String model, String type, String fuel_type, String engine, String gearbox, String trim, String colour) {
         ArrayList<AdvertEntity> adverts = advertDao.findAllByBrandAndModelAndTypeAndFuelTypeAndEngineAndGearboxAndTrimAndColour(brand, model, type, fuel_type, engine, gearbox, trim, colour);
@@ -43,6 +46,46 @@ public class AdvertService implements IAdvertService{
         });
         return adverts;
     }
+
+    @Override
+    public ArrayList<AdvertDto> getAdvertsWithPhotos(String brand, String model, String type, String fuel_type, String engine, String gearbox, String trim, String colour) {
+        ArrayList<AdvertEntity> adverts = advertDao.findAllByBrandAndModelAndTypeAndFuelTypeAndEngineAndGearboxAndTrimAndColour(brand, model, type, fuel_type, engine, gearbox, trim, colour);
+        ArrayList<AdvertDto> advertDtos = new ArrayList<>();
+        adverts.sort(new Comparator<AdvertEntity>() {
+            @Override
+            public int compare(AdvertEntity lhs, AdvertEntity rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                return lhs.getPrice() > rhs.getPrice() ? 1 : (lhs.getPrice() < rhs.getPrice()) ? -1 : 0;
+            }
+        });
+        for(AdvertEntity advert : adverts
+        ){
+            advertDtos.add(setUPAdvertDto(advert));
+        }
+        return advertDtos;
+    }
+
+    @Override
+    public AdvertDto setUPAdvertDto(AdvertEntity advertEntity) {
+        AdvertDto advertDto = new AdvertDto();
+//        photoService = new PhotoService();
+
+        advertDto.setAdvertId(advertEntity.getId());
+        advertDto.setBrand(advertEntity.getBrand());
+        advertDto.setModel(advertEntity.getModel());
+        advertDto.setType(advertEntity.getType());
+        advertDto.setFuelType(advertEntity.getFuelType());
+        advertDto.setEngine(advertEntity.getEngine());
+        advertDto.setGearbox(advertEntity.getGearbox());
+        advertDto.setTrim(advertEntity.getTrim());
+        advertDto.setColour(advertEntity.getColour());
+        advertDto.setDealerId(advertEntity.getDealerByDealerid().getId());
+        advertDto.setPrice(advertEntity.getPrice());
+        advertDto.setUrl(photoService.getFirstPhoto(advertEntity.getId()).getUrl());
+        advertDto.setPhotoId(photoService.getFirstPhoto(advertEntity.getId()).getId());
+        return advertDto;
+    }
+
 
     @Override
     public AdvertEntity getAdvertById(int id) {
@@ -64,6 +107,26 @@ public class AdvertService implements IAdvertService{
     }
 
     @Override
+    public ArrayList<AdvertDto> getAdvertByUserInterestWithPhotos(int userId) {
+        ArrayList<Integer> ids = new ArrayList<>();
+        Optional<UsersEntity> user = usersDao.findById(userId);
+        if(user.isEmpty()) return null;
+        ArrayList<InterestEntity> userInterest = interestDao.findAllByUsersByUserid(user.get());
+        for (InterestEntity interestEntity: userInterest
+        ) {
+            ids.add(interestEntity.getAdvertByAdvertid().getId());
+        }
+        List<AdvertEntity> adverts = advertDao.findAllById(ids);
+        ArrayList<AdvertDto> advertDtos = new ArrayList<>();
+        for(AdvertEntity advert : adverts
+        ){
+            advertDtos.add(setUPAdvertDto(advert));
+        }
+        return advertDtos;
+
+    }
+
+    @Override
     public ArrayList<AdvertEntity> getAdvertByDealerId(int dealerId) {
         Optional<DealerEntity> temp = dealerDao.findById(dealerId);
         if(temp.isEmpty()) return null;
@@ -80,7 +143,7 @@ public class AdvertService implements IAdvertService{
         advert.setType(advertDto.getType());
         advert.setFuelType(advertDto.getFuelType());
         advert.setEngine(advertDto.getEngine());
-        advert.setGearbox(advertDto.getGearBox());
+        advert.setGearbox(advertDto.getGearbox());
         advert.setTrim(advertDto.getTrim());
         advert.setPrice(advertDto.getPrice());
         advert.setColour(advertDto.getColour());
