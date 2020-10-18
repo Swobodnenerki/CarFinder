@@ -35,10 +35,20 @@ public class UsersService implements IUsersService {
         AccountEntity account = new AccountEntity();
         account.setLogin(usersDto.getLogin());
         account.setPassword(passwordEncoder.encode(usersDto.getPassword()));
-        account.setPassword(usersDto.getPassword());
         accountsDao.save(account);
+//        UsersEntity user = new UsersEntity();
+//        user.setEmail(usersDto.getEmail());
+//        user.setFirstName(usersDto.getFirstName());
+//        user.setLastName(usersDto.getLastName());
+//        user.setPhone(usersDto.getPhone());
+//        user.setAccountByAccountid(account);
+//        usersDao.save(user);
         this.registerUserWithUserData(usersDto.getEmail(),usersDto.getFirstName(), usersDto.getLastName(), usersDto.getPhone(), account);
         this.registerUserSetRole(account);
+//        RolesEntity role = new RolesEntity();
+//        role.setRole("user");
+//        role.setAccountByAccountid(account);
+//        rolesDao.save(role);
         return Const.registrationSuccess;
     }
 
@@ -80,5 +90,19 @@ public class UsersService implements IUsersService {
     @Override
     public int updateUserDetails(UsersDto usersDto) {
         return 0;
+    }
+
+    @Override
+    public UsersDto getUserById(int id) {
+        UsersDto usersDto = new UsersDto();
+        Optional<UsersEntity> user = usersDao.findById(id);
+        if(user.isEmpty()) return null;
+        usersDto.setUserId(user.get().getId());
+        usersDto.setFirstName(user.get().getFirstName());
+        usersDto.setLastName(user.get().getLastName());
+        usersDto.setPhone(user.get().getPhone());
+        usersDto.setEmail(user.get().getEmail());
+        usersDto.setAccountId(user.get().getAccountByAccountid().getId());
+        return usersDto;
     }
 }

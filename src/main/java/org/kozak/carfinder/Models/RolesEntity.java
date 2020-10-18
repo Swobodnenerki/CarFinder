@@ -11,7 +11,7 @@ public class RolesEntity {
     private AccountEntity accountByAccountid;
 
     @Id
-    @SequenceGenerator(name="roles_id_seq", sequenceName="roles_seq", allocationSize=1)
+    @SequenceGenerator(name="roles_id_seq", sequenceName="roles_id_seq", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="roles_id_seq")
     @Column(name = "id", nullable = false)
     public Integer getId() {

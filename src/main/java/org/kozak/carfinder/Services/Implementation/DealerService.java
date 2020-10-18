@@ -31,15 +31,33 @@ public class DealerService implements IDealerService {
     IDealerDao dealerDao;
 
     @Override
-    public int registerNewDealer(UsersDto usersDto, DealerDto dealerDto) {
-        if(accountsDao.findAccountEntitiesByLogin(usersDto.getLogin()) != null) return Const.loginAlreadyUsed;
-        if(usersDao.findUsersEntitiesByEmail(usersDto.getEmail()) !=null) return Const.emailAlreadyUsed;
+    public int registerNewDealer(DealerDto dealerDto) {
+        if(accountsDao.findAccountEntitiesByLogin(dealerDto.getLogin()) != null) return Const.loginAlreadyUsed;
+        if(usersDao.findUsersEntitiesByEmail(dealerDto.getEmail()) !=null) return Const.emailAlreadyUsed;
         AccountEntity account = new AccountEntity();
-        account.setLogin(usersDto.getLogin());
-        account.setPassword(passwordEncoder.encode(usersDto.getPassword()));
+        account.setLogin(dealerDto.getLogin());
+        account.setPassword(passwordEncoder.encode(dealerDto.getPassword()));
         accountsDao.save(account);
-        this.registerDealerWithUserData(usersDto.getEmail(),usersDto.getFirstName(), usersDto.getLastName(), usersDto.getPhone(), account, dealerDto);
-        this.registerDealerSetRole(account);
+//        this.registerDealerWithUserData(dealerDto.getEmail(),dealerDto.getFirstName(), dealerDto.getLastName(), dealerDto.getPhone(), account, dealerDto);
+//        this.registerDealerSetRole(account);
+        UsersEntity user = new UsersEntity();
+        user.setEmail(dealerDto.getEmail());
+        user.setFirstName(dealerDto.getFirstName());
+        user.setLastName(dealerDto.getLastName());
+        user.setPhone(dealerDto.getPhone());
+        user.setAccountByAccountid(account);
+        usersDao.save(user);
+        DealerEntity dealer = new DealerEntity();
+        dealer.setName(dealerDto.getName());
+        dealer.setCity(dealerDto.getCity());
+        dealer.setStreet(dealerDto.getStreet());
+        dealer.setStreetNumber(dealerDto.getStreetNumber());
+        dealer.setUsersByUserid(user);
+        dealerDao.save(dealer);
+        RolesEntity role = new RolesEntity();
+        role.setRole("dealer");
+        role.setAccountByAccountid(account);
+        rolesDao.save(role);
         return Const.registrationSuccess;
 
     }

@@ -11,7 +11,7 @@ public class InterestEntity {
     private AdvertEntity advertByAdvertid;
 
     @Id
-    @SequenceGenerator(name="intrest_id_seq", sequenceName="intrest_seq", allocationSize=1)
+    @SequenceGenerator(name="intrest_id_seq", sequenceName="intrest_id_seq", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="intrest_id_seq")
     @Column(name = "id", nullable = false)
     public Integer getId() {

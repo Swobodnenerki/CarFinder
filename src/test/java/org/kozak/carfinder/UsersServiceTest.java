@@ -113,7 +113,7 @@ public class UsersServiceTest {
         when(usersDao.findUsersEntitiesByEmail(any())).thenReturn(null);
         when(usersDao.save(any())).thenReturn(user);
         when(accountDao.save(any(AccountEntity.class))).thenReturn(account);
-        int result = dealerService.registerNewDealer(usersDto, dealerDto);
+        int result = dealerService.registerNewDealer(dealerDto);
         assertEquals(result, Const.registrationSuccess);
     }
 

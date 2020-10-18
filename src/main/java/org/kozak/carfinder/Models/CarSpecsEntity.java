@@ -17,7 +17,7 @@ public class CarSpecsEntity {
     private double price;
 
     @Id
-    @SequenceGenerator(name="car_specs_id_seq", sequenceName="car_specs_seq", allocationSize=1)
+    @SequenceGenerator(name="car_specs_id_seq", sequenceName="car_specs_id_seq", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="car_specs_id_seq")
     @Column(name = "id", nullable = false)
     public Integer getId() {
