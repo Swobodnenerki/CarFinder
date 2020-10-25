@@ -5,6 +5,7 @@ import org.kozak.carfinder.Models.CarSpecsEntity;
 import java.util.ArrayList;
 
 public interface ICarSpecsService {
+    ArrayList<String> getBrand();
     ArrayList<CarSpecsEntity> getCarSpecs();
     ArrayList<CarSpecsEntity> getCarSpecsByBrand(String brand);
     ArrayList<CarSpecsEntity> getCarSpecsByBrandAndModel(String brand, String model);

@@ -46,7 +46,7 @@ public class UsersController {
         return user;
     }
 
-    @PostMapping("/registerUser")
+    @PostMapping("/register")
     @ResponseStatus(HttpStatus.OK)
     public void registerNewUser(@RequestBody UsersDto usersDto) throws EmailAlreadyUsedException, LoginAlreadyUsedException{
         int result = usersService.registerNewUser(usersDto);
@@ -66,6 +66,11 @@ public class UsersController {
     @ResponseStatus(HttpStatus.OK)
     public String checkAuth(){
         return "Authenticate";
+    }
+
+    @GetMapping("/dealerByAccountId/{id}")
+    public int getDealerByUserId(@PathVariable int id){
+        return dealerService.getRoleByAccountId(id);
     }
 
 

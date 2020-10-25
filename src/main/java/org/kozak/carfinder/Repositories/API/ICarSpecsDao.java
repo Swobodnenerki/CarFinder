@@ -2,6 +2,7 @@ package org.kozak.carfinder.Repositories.API;
 
 import org.kozak.carfinder.Models.CarSpecsEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,7 +11,12 @@ import java.util.ArrayList;
 @Repository
 @Transactional
 public interface ICarSpecsDao extends JpaRepository<CarSpecsEntity, Integer> {
+
     ArrayList<CarSpecsEntity> findAll();
+
+    @Query(value = "SELECT DISTINCT brand FROM car_specs ORDER BY brand", nativeQuery = true)
+    ArrayList<String> findDistinctBrand();
+
     ArrayList<CarSpecsEntity> findAllByBrand(String brand);
     ArrayList<CarSpecsEntity> findAllByBrandAndModel(String brand, String model);
     ArrayList<CarSpecsEntity> findAllByBrandAndModelAndType(String brand, String model, String type);

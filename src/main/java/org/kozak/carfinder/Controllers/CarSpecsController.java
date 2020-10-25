@@ -18,9 +18,14 @@ public class CarSpecsController {
     CarSpecsService carSpecsService;
 
     @GetMapping
-    public ArrayList<CarSpecsEntity> getAll(){
-        return carSpecsService.getCarSpecs();
+    public ArrayList<String> getBrand(){
+        return carSpecsService.getBrand();
     }
+
+//    @GetMapping
+//    public ArrayList<CarSpecsEntity> getAll(){
+//        return carSpecsService.getCarSpecs();
+//    }
 
     @GetMapping("/byBrand/{brand}")
     public ArrayList<CarSpecsEntity> getAllByBrand(@PathVariable String brand){

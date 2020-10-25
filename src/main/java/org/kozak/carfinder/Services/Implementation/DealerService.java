@@ -94,4 +94,13 @@ public class DealerService implements IDealerService {
         role.setAccountByAccountid(account);
         rolesDao.save(role);
     }
+
+    @Override
+    public int getRoleByAccountId(int accountId) {
+        Optional<AccountEntity> temp = accountsDao.findById(accountId);
+        if(temp.isEmpty()) return 0;
+        RolesEntity role=rolesDao.findRolesEntitiesByAccountByAccountid(temp.get());
+        if(role.getRole().equals("user")) return 0;
+        return 1;
+    }
 }
