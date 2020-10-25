@@ -20,6 +20,46 @@ public class CarSpecsService implements ICarSpecsService {
     }
 
     @Override
+    public ArrayList<String> getModel(String brand) {
+        return carSpecsDao.findDistinctModel(brand);
+    }
+
+    @Override
+    public ArrayList<String> getType(String brand, String model) {
+        return carSpecsDao.findDistinctType(brand, model);
+    }
+
+    @Override
+    public ArrayList<String> getFuelType(String brand, String model, String type) {
+        return  carSpecsDao.findDistinctFuelType(brand, model, type);
+    }
+
+    @Override
+    public ArrayList<String> getEngine(String brand, String model, String type, String fuel_type) {
+        return  carSpecsDao.findDistinctEngine(brand, model, type, fuel_type);
+    }
+
+    @Override
+    public ArrayList<String> getGearbox(String brand, String model, String type, String fuel_type, String engine) {
+        return  carSpecsDao.findDistinctGearbox(brand, model, type, fuel_type, engine);
+    }
+
+    @Override
+    public ArrayList<String> getTrim(String brand, String model, String type, String fuel_type, String engine, String gearbox) {
+        return  carSpecsDao.findDistinctTrim(brand, model, type, fuel_type, engine, gearbox);
+    }
+
+    @Override
+    public ArrayList<String> getColour(String brand, String model, String type, String fuel_type, String engine, String gearbox, String trim) {
+        return  carSpecsDao.findDistinctColour(brand, model, type, fuel_type, engine, gearbox, trim);
+    }
+
+    @Override
+    public ArrayList<Double> getPrice(String brand, String model, String type, String fuel_type, String engine, String gearbox, String trim, String colour) {
+        return  carSpecsDao.findDistinctPrice(brand, model, type, fuel_type, engine, gearbox, trim, colour);
+    }
+
+    @Override
     public ArrayList<CarSpecsEntity> getCarSpecs() {
         return carSpecsDao.findAll();
     }
