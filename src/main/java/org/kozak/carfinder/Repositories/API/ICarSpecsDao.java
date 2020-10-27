@@ -39,7 +39,7 @@ public interface ICarSpecsDao extends JpaRepository<CarSpecsEntity, Integer> {
     ArrayList<String> findDistinctColour(String brand, String model, String type, String fuel_type, String engine, String gearbox, String trim);
 
     @Query(value = "SELECT DISTINCT price FROM car_specs WHERE brand = ?1 AND model = ?2 AND type = ?3 AND fuel_type = ?4 AND engine = ?5 AND gearbox = ?6 AND trim = ?7 AND colour =?8 ORDER BY price", nativeQuery = true)
-    ArrayList<Double> findDistinctPrice(String brand, String model, String type, String fuel_type, String engine, String gearbox, String trim, String colour);
+    Double findDistinctPrice(String brand, String model, String type, String fuel_type, String engine, String gearbox, String trim, String colour);
 
     ArrayList<CarSpecsEntity> findAllByBrand(String brand);
     ArrayList<CarSpecsEntity> findAllByBrandAndModel(String brand, String model);

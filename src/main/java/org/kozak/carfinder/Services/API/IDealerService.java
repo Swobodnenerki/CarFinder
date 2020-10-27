@@ -11,4 +11,5 @@ public interface IDealerService {
     void registerDealerWithDealerData(String name, String city, String street, int streetNumber, UsersEntity usersEntity);
     void registerDealerSetRole(AccountEntity accountEntity);
     int getRoleByAccountId(int id);
+    DealerEntity getDealerById(int id);
 }

@@ -98,7 +98,7 @@ public class CarSpecsController {
 //    }
 
     @GetMapping("/byBrand/byModel/byType/byFuelType/byEngine/byGearbox/byTrim/byColour/{brand}/{model}/{type}/{fuelType}/{engine}/{gearbox}/{trim}/{colour}")
-    public ArrayList<Double> getPrice(@PathVariable("brand") String brand, @PathVariable("model") String model, @PathVariable("type") String type, @PathVariable("fuelType") String fuelType, @PathVariable("engine") String engine, @PathVariable("gearbox") String gearbox, @PathVariable("trim") String trim, @PathVariable("colour") String colour){
+    public Double getPrice(@PathVariable("brand") String brand, @PathVariable("model") String model, @PathVariable("type") String type, @PathVariable("fuelType") String fuelType, @PathVariable("engine") String engine, @PathVariable("gearbox") String gearbox, @PathVariable("trim") String trim, @PathVariable("colour") String colour){
         return carSpecsService.getPrice(brand, model, type, fuelType, engine, gearbox, trim, colour);
     }
 

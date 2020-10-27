@@ -3,9 +3,11 @@ package org.kozak.carfinder.Controllers;
 import org.kozak.carfinder.Models.AdvertEntity;
 import org.kozak.carfinder.Models.AdvertDto;
 import org.kozak.carfinder.Models.CarSpecsEntity;
+import org.kozak.carfinder.Models.PhotosEntity;
 import org.kozak.carfinder.Services.Exceptions.AdvertNotFoundException;
 import org.kozak.carfinder.Services.Implementation.AdvertService;
 import org.kozak.carfinder.Services.Const;
+import org.kozak.carfinder.Services.Implementation.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,9 @@ public class AdvertController {
 
     @Autowired
     AdvertService advertService;
+
+    @Autowired
+    PhotoService photoService;
 
     @GetMapping("/byId/{id}")
     public AdvertEntity getById(@PathVariable int id) throws AdvertNotFoundException{
@@ -57,6 +62,12 @@ public class AdvertController {
     public ArrayList<AdvertEntity> getAdvertByDealerId(@PathVariable int id){
         return advertService.getAdvertByDealerId(id);
     }
+
+    @GetMapping("/photo/byAdvertId/{id}")
+    public PhotosEntity getFirstPhoto(@PathVariable int id){
+        return photoService.getFirstPhoto(id);
+    }
+
 
 
 

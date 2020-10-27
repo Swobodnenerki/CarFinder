@@ -103,4 +103,9 @@ public class DealerService implements IDealerService {
         if(role.getRole().equals("user")) return 0;
         return 1;
     }
+
+    @Override
+    public DealerEntity getDealerById(int id) {
+        return dealerDao.findById(id).get();
+    }
 }

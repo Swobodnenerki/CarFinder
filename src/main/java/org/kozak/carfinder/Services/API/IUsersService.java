@@ -15,4 +15,5 @@ public interface IUsersService {
     int updateAccountDetails(String login, String password, AccountEntity account);
     int updateUserDetails(UsersDto usersDto);
     UsersDto getUserById(int id);
+    UsersEntity getUserByAccountId(int id);
 }

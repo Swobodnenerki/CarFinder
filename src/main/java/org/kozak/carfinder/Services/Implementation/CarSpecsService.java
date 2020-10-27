@@ -55,7 +55,7 @@ public class CarSpecsService implements ICarSpecsService {
     }
 
     @Override
-    public ArrayList<Double> getPrice(String brand, String model, String type, String fuel_type, String engine, String gearbox, String trim, String colour) {
+    public Double getPrice(String brand, String model, String type, String fuel_type, String engine, String gearbox, String trim, String colour) {
         return  carSpecsDao.findDistinctPrice(brand, model, type, fuel_type, engine, gearbox, trim, colour);
     }
 

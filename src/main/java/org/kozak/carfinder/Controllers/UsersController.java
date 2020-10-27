@@ -73,6 +73,9 @@ public class UsersController {
         return dealerService.getRoleByAccountId(id);
     }
 
-
+    @GetMapping("dealerById/{id}")
+    public DealerEntity getDealerById(@PathVariable int id){
+        return dealerService.getDealerById(id);
+    }
 
 }

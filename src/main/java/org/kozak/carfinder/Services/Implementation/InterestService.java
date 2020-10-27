@@ -1,6 +1,8 @@
 package org.kozak.carfinder.Services.Implementation;
 
+import org.apache.catalina.User;
 import org.kozak.carfinder.Models.*;
+import org.kozak.carfinder.Repositories.API.IAccountDao;
 import org.kozak.carfinder.Repositories.API.IAdvertDao;
 import org.kozak.carfinder.Repositories.API.IInterestDao;
 import org.kozak.carfinder.Repositories.API.IUsersDao;
@@ -22,6 +24,12 @@ public class InterestService implements IInterestService {
     @Autowired
     IAdvertDao advertDao;
 
+    @Autowired
+    IAccountDao accountDao;
+
+    @Autowired
+    UsersService usersService;
+
     @Override
     public ArrayList<InterestEntity> getInterestByAdvertId(int advertId) {
         AdvertEntity advert = advertDao.findById(advertId).get();
@@ -38,7 +46,8 @@ public class InterestService implements IInterestService {
     public int addInterest(InterestDto interestDto) {
         InterestEntity interest = new InterestEntity();
         AdvertEntity advert = advertDao.getOne(interestDto.getAdvertId());
-        UsersEntity user = usersDao.getOne(interestDto.getUserId());
+        AccountEntity account = accountDao.getOne(interestDto.getAccountId());
+        UsersEntity user = usersService.getUserByAccountId(account.getId());
         interest.setAdvertByAdvertid(advert);
         interest.setUsersByUserid(user);
         InterestEntity temp = interestDao.save(interest);

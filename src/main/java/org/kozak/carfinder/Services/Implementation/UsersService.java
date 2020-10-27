@@ -105,4 +105,10 @@ public class UsersService implements IUsersService {
         usersDto.setAccountId(user.get().getAccountByAccountid().getId());
         return usersDto;
     }
+
+    @Override
+    public UsersEntity getUserByAccountId(int id) {
+        AccountEntity account = accountsDao.findById(id).get();
+        return usersDao.findUsersEntitiesByAccountByAccountid(account);
+    }
 }
