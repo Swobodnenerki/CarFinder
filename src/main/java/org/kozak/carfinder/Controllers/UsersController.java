@@ -78,4 +78,9 @@ public class UsersController {
         return dealerService.getDealerById(id);
     }
 
+    @GetMapping("dealerIdByAccountId/{accountId}")
+    public int getDealerIdByAccountId(@PathVariable int accountId){
+        return dealerService.getDealerIdByAccountId(accountId);
+    }
+
 }

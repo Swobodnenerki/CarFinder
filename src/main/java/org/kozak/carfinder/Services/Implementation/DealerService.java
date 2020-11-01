@@ -30,6 +30,9 @@ public class DealerService implements IDealerService {
     @Autowired
     IDealerDao dealerDao;
 
+    @Autowired
+    UsersService usersService;
+
     @Override
     public int registerNewDealer(DealerDto dealerDto) {
         if(accountsDao.findAccountEntitiesByLogin(dealerDto.getLogin()) != null) return Const.loginAlreadyUsed;
@@ -107,5 +110,14 @@ public class DealerService implements IDealerService {
     @Override
     public DealerEntity getDealerById(int id) {
         return dealerDao.findById(id).get();
+    }
+
+    @Override
+    public int getDealerIdByAccountId(int id) {
+        UsersEntity user = usersService.getUserByAccountId(id);
+        Optional<DealerEntity> dealer = Optional.ofNullable(dealerDao.findDealerEntitiesByUsersByUserid(user));
+        if(dealer.isEmpty()) return 0;
+        int dealerId = dealer.get().getId();
+        return dealerId;
     }
 }

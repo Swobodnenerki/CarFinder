@@ -12,4 +12,5 @@ public interface IDealerService {
     void registerDealerSetRole(AccountEntity accountEntity);
     int getRoleByAccountId(int id);
     DealerEntity getDealerById(int id);
+    int getDealerIdByAccountId(int id);
 }
