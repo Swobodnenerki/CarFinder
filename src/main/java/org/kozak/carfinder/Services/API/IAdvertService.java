@@ -12,8 +12,9 @@ public interface IAdvertService {
     AdvertEntity getAdvertById(int id);
     List<AdvertEntity> getAdvertByUserInterest(int userId);
     ArrayList<AdvertDto> getAdvertByUserInterestWithPhotos(int userId);
-    ArrayList<AdvertEntity> getAdvertByDealerId(int dealerId);
+    ArrayList<AdvertDto> getAdvertByDealerId(int dealerId);
     int addAdvert(AdvertDto advert);
+    int deleteAdvert(int id);
 //    int updateAdvert();
 //    int deleteAdvert(int id);
 

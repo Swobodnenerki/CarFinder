@@ -4,6 +4,7 @@ import org.kozak.carfinder.Models.*;
 import org.kozak.carfinder.Repositories.API.*;
 import org.kozak.carfinder.Services.API.IAdvertService;
 import org.kozak.carfinder.Services.API.IPhotoService;
+import org.kozak.carfinder.Services.Const;
 import org.kozak.carfinder.Services.Implementation.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -127,10 +128,15 @@ public class AdvertService implements IAdvertService{
     }
 
     @Override
-    public ArrayList<AdvertEntity> getAdvertByDealerId(int dealerId) {
+    public ArrayList<AdvertDto> getAdvertByDealerId(int dealerId) {
         Optional<DealerEntity> temp = dealerDao.findById(dealerId);
         if(temp.isEmpty()) return null;
-        return advertDao.findAllByDealerByDealerid(temp.get());
+        ArrayList<AdvertEntity> adverts = advertDao.findAllByDealerByDealerid(temp.get());
+        ArrayList<AdvertDto> advertDtos = new ArrayList<>();
+        for(AdvertEntity advert : adverts){
+            advertDtos.add(setUPAdvertDto(advert));
+        }
+        return advertDtos;
 
     }
 
@@ -156,6 +162,16 @@ public class AdvertService implements IAdvertService{
         photosDao.save(photo);
 //        photo.addPhoto(advertDto.getUrl(),advert);
         return temp.getId();
+    }
+
+    @Override
+    public int deleteAdvert(int id) {
+        Optional<AdvertEntity> advert = advertDao.findById(id);
+        if(advert.isEmpty()) return Const.advertDoesNotExist;
+        interestDao.deleteAllByAdvertByAdvertid(advert);
+        photosDao.deleteAllByAdvertByAdvertid(advert);
+        advertDao.deleteById(id);
+        return Const.advertDeletionSuccess;
     }
 
     @Override

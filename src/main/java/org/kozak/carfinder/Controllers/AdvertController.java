@@ -61,13 +61,20 @@ public class AdvertController {
     }
 
     @GetMapping("/dealer/{id}")
-    public ArrayList<AdvertEntity> getAdvertByDealerId(@PathVariable int id){
+    public ArrayList<AdvertDto> getAdvertByDealerId(@PathVariable int id){
         return advertService.getAdvertByDealerId(id);
     }
 
     @GetMapping("/photo/byAdvertId/{id}")
     public PhotosEntity getFirstPhoto(@PathVariable int id){
         return photoService.getFirstPhoto(id);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteEvent(@PathVariable int id) throws AdvertNotFoundException{
+        int result = advertService.deleteAdvert(id);
+        if(result == Const.advertDoesNotExist)
+            throw new AdvertNotFoundException("There is no such advert");
     }
 
 

@@ -58,4 +58,5 @@ public class InterestService implements IInterestService {
     public void deleteInterest(int id) {
         interestDao.deleteById(id);
     }
+
 }
