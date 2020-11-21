@@ -46,8 +46,7 @@ public class InterestService implements IInterestService {
     public int addInterest(InterestDto interestDto) {
         InterestEntity interest = new InterestEntity();
         AdvertEntity advert = advertDao.getOne(interestDto.getAdvertId());
-        AccountEntity account = accountDao.getOne(interestDto.getAccountId());
-        UsersEntity user = usersService.getUserByAccountId(account.getId());
+        UsersEntity user = usersDao.getOne(interestDto.getUserId());
         interest.setAdvertByAdvertid(advert);
         interest.setUsersByUserid(user);
         InterestEntity temp = interestDao.save(interest);

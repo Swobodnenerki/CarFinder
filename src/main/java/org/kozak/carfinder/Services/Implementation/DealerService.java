@@ -99,10 +99,10 @@ public class DealerService implements IDealerService {
     }
 
     @Override
-    public int getRoleByAccountId(int accountId) {
-        Optional<AccountEntity> temp = accountsDao.findById(accountId);
-        if(temp.isEmpty()) return 0;
-        RolesEntity role=rolesDao.findRolesEntitiesByAccountByAccountid(temp.get());
+    public int getRoleByUserId(int userId) {
+        Optional<UsersEntity> user = usersDao.findById(userId);
+        AccountEntity account = user.get().getAccountByAccountid();
+        RolesEntity role=rolesDao.findRolesEntitiesByAccountByAccountid(account);
         if(role.getRole().equals("user")) return 0;
         return 1;
     }
@@ -113,8 +113,8 @@ public class DealerService implements IDealerService {
     }
 
     @Override
-    public int getDealerIdByAccountId(int id) {
-        UsersEntity user = usersService.getUserByAccountId(id);
+    public int getDealerIdByUserId(int id) {
+        UsersEntity user = usersDao.findById(id).get();
         Optional<DealerEntity> dealer = Optional.ofNullable(dealerDao.findDealerEntitiesByUsersByUserid(user));
         if(dealer.isEmpty()) return 0;
         int dealerId = dealer.get().getId();

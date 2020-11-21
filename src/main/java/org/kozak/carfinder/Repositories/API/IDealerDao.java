@@ -14,4 +14,5 @@ import java.util.ArrayList;
 @Transactional
 public interface IDealerDao extends JpaRepository<DealerEntity, Integer> {
     DealerEntity findDealerEntitiesByUsersByUserid(UsersEntity user);
+    DealerEntity findDealerEntitiesByCity(String city);
 }

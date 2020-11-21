@@ -10,7 +10,7 @@ public interface IDealerService {
     void registerDealerWithUserData(String email, String firstName, String lastName, String phone, AccountEntity accountEntity, DealerDto dealerDto);
     void registerDealerWithDealerData(String name, String city, String street, int streetNumber, UsersEntity usersEntity);
     void registerDealerSetRole(AccountEntity accountEntity);
-    int getRoleByAccountId(int id);
+    int getRoleByUserId(int id);
     DealerEntity getDealerById(int id);
-    int getDealerIdByAccountId(int id);
+    int getDealerIdByUserId(int id);
 }

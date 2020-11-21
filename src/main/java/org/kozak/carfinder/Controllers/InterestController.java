@@ -1,8 +1,10 @@
 package org.kozak.carfinder.Controllers;
 
+import org.kozak.carfinder.Models.AccountEntity;
 import org.kozak.carfinder.Models.InterestEntity;
 import org.kozak.carfinder.Models.InterestDto;
 import org.kozak.carfinder.Models.UsersEntity;
+import org.kozak.carfinder.Repositories.API.IUsersDao;
 import org.kozak.carfinder.Services.Implementation.InterestService;
 import org.kozak.carfinder.Services.Implementation.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class InterestController {
     @Autowired
     UsersService usersService;
 
+    @Autowired
+    IUsersDao usersDao;
+
     @GetMapping("/byAdvertId/{id}")
     public ArrayList<InterestEntity> getInterestByAdvertId(@PathVariable int id){
         return interestService.getInterestByAdvertId(id);
@@ -38,14 +43,11 @@ public class InterestController {
     public int addInterest(@RequestBody InterestDto interest){
         return interestService.addInterest(interest);
     }
-    @DeleteMapping("/{id}")
-    public void deleteInterest(@PathVariable int id){
-        interestService.deleteInterest(id);
-    }
-    @DeleteMapping("/byUserInterested/{accountId}/{advertId}")
+
+    @DeleteMapping("/{userId}/{advertId}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteInterestByUserInterested(@PathVariable ("accountId") int accountId, @PathVariable ("advertId") int advertId){
-        UsersEntity user = usersService.getUserByAccountId(accountId);
+    public void deleteInterestByUserInterested(@PathVariable ("userId") int userId, @PathVariable ("advertId") int advertId){
+        UsersEntity user = usersDao.findById(userId).get();
         ArrayList<InterestEntity> interestByAdvert = interestService.getInterestByAdvertId(advertId);
         ArrayList<InterestEntity> interestByUser = interestService.getInterestByUserId(user.getId());
         for(InterestEntity interestA: interestByAdvert
@@ -56,10 +58,10 @@ public class InterestController {
         }
     }
 
-    @GetMapping("checkIfUserIsInterested/{accountId}/{advertId}")
-    public boolean checkIfUserIsInterested(@PathVariable("accountId") int accountId, @PathVariable("advertId") int advertId){
+    @GetMapping("checkIfUserIsInterested/{userId}/{advertId}")
+    public boolean checkIfUserIsInterested(@PathVariable("userId") int userId, @PathVariable("advertId") int advertId){
         boolean userInterested = false;
-        UsersEntity user = usersService.getUserByAccountId(accountId);
+        UsersEntity user = usersDao.findById(userId).get();
         ArrayList<InterestEntity> interestByAdvert = interestService.getInterestByAdvertId(advertId);
         ArrayList<InterestEntity> interestByUser = interestService.getInterestByUserId(user.getId());
         for(InterestEntity interestA: interestByAdvert

@@ -111,4 +111,23 @@ public class UsersService implements IUsersService {
         AccountEntity account = accountsDao.findById(id).get();
         return usersDao.findUsersEntitiesByAccountByAccountid(account);
     }
+    @Override
+    public AccountEntity getAccountById(int id) {
+        AccountEntity account = accountsDao.findById(id).get();
+        return account;
+    }
+    @Override
+    public UsersDto getUserDtoByAccountId(int id) {
+        UsersDto usersDto = new UsersDto();
+        AccountEntity account = accountsDao.findById(id).get();
+        Optional<UsersEntity> user = Optional.ofNullable(usersDao.findUsersEntitiesByAccountByAccountid(account));
+        if(user.isEmpty()) return null;
+        usersDto.setUserId(user.get().getId());
+        usersDto.setFirstName(user.get().getFirstName());
+        usersDto.setLastName(user.get().getLastName());
+        usersDto.setPhone(user.get().getPhone());
+        usersDto.setEmail(user.get().getEmail());
+        usersDto.setAccountId(user.get().getAccountByAccountid().getId());
+        return usersDto;
+    }
 }
