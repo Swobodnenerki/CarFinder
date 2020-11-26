@@ -15,8 +15,5 @@ public interface IAdvertService {
     ArrayList<AdvertDto> getAdvertByDealerId(int dealerId);
     int addAdvert(AdvertDto advert);
     int deleteAdvert(int id);
-//    int updateAdvert();
-//    int deleteAdvert(int id);
-
-    List<AdvertEntity> getSortedByPrice(String price, String sortType);
+    ArrayList<AdvertDto> getAdvertsByCity(String city);
 }

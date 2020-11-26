@@ -74,8 +74,8 @@ public class UsersController {
     }
 
     @GetMapping("dealer/{id}")
-    public DealerEntity getDealerById(@PathVariable int id){
-        return dealerService.getDealerById(id);
+    public DealerDto getDealerDtoById(@PathVariable int id){
+        return dealerService.getDealerDtoByUserId(id);
     }
 
     @GetMapping("dealerIdByUserId/{userId}")
@@ -85,26 +85,23 @@ public class UsersController {
     @PutMapping("/user/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void updateUserDetails(@PathVariable int id, @RequestBody UsersDto user)
-            throws EmailAlreadyUsedException, LoginAlreadyUsedException
+            throws EmailAlreadyUsedException
     {
         user.setUserId(id);
         int result = usersService.updateUserDetails(user);
         if(result == Const.emailAlreadyUsed)
             throw new EmailAlreadyUsedException("E-mail is already used!");
-        if(result == Const.loginAlreadyUsed)
-            throw new LoginAlreadyUsedException("Login is already used");
     }
     @PutMapping("/dealer/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void updateDealerDetails(@PathVariable int id, @RequestBody UsersDto user)
-            throws EmailAlreadyUsedException, LoginAlreadyUsedException
+    public void updateDealerDetails(@PathVariable int id, @RequestBody DealerDto dealer)
+            throws EmailAlreadyUsedException
     {
-        user.setUserId(id);
-        int result = usersService.updateUserDetails(user);
+        dealer.setUserId(id);
+        int result = dealerService.updateDealerByUserId(dealer);
         if(result == Const.emailAlreadyUsed)
             throw new EmailAlreadyUsedException("E-mail is already used!");
-        if(result == Const.loginAlreadyUsed)
-            throw new LoginAlreadyUsedException("Login is already used");
+
     }
 
 }

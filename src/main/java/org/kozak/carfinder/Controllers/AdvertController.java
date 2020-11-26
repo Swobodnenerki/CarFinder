@@ -1,7 +1,6 @@
 package org.kozak.carfinder.Controllers;
 
 import org.kozak.carfinder.Models.*;
-import org.kozak.carfinder.Repositories.API.IUsersDao;
 import org.kozak.carfinder.Services.Exceptions.AdvertNotFoundException;
 import org.kozak.carfinder.Services.Implementation.AdvertService;
 import org.kozak.carfinder.Services.Const;
@@ -28,8 +27,6 @@ public class AdvertController {
     @Autowired
     UsersService usersService;
 
-    @Autowired
-    IUsersDao usersDao;
 
     @GetMapping("/byId/{id}")
     public AdvertEntity getById(@PathVariable int id) throws AdvertNotFoundException{
@@ -46,8 +43,7 @@ public class AdvertController {
 
     @GetMapping("/interested/{userId}")
     public ArrayList<AdvertDto> getAdvertByUserInterestWithPhotos(@PathVariable int userId){
-        UsersEntity user = usersDao.findById(userId).get();
-        return advertService.getAdvertByUserInterestWithPhotos(user.getId());
+        return advertService.getAdvertByUserInterestWithPhotos(userId);
     }
 
     @PostMapping("/dealer")
@@ -63,6 +59,11 @@ public class AdvertController {
     @GetMapping("/photo/byAdvertId/{id}")
     public PhotosEntity getFirstPhoto(@PathVariable int id){
         return photoService.getFirstPhoto(id);
+    }
+
+    @GetMapping("/byCity/{city}")
+    public ArrayList<AdvertDto> getAdvertsByCity(@PathVariable String city){
+        return advertService.getAdvertsByCity(city);
     }
 
     @DeleteMapping("/dealer/{id}")

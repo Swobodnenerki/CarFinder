@@ -13,4 +13,6 @@ public interface IDealerService {
     int getRoleByUserId(int id);
     DealerEntity getDealerById(int id);
     int getDealerIdByUserId(int id);
+    DealerDto getDealerDtoByUserId(int id);
+    int updateDealerByUserId(DealerDto dealerDto);
 }

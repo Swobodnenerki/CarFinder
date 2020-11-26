@@ -10,4 +10,6 @@ public interface IInterestService {
     ArrayList<InterestEntity> getInterestByUserId(int userId);
     int addInterest(InterestDto interestDto);
     void deleteInterest(int id);
+    boolean checkIfUserIsInterested(int userId, int advertId);
+    void deleteInterestByUserInterested(int userId, int advertId);
 }

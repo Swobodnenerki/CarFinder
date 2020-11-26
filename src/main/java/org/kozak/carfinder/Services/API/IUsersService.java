@@ -3,8 +3,6 @@ package org.kozak.carfinder.Services.API;
 import org.kozak.carfinder.Models.UsersEntity;
 import org.kozak.carfinder.Models.AccountEntity;
 import org.kozak.carfinder.Models.UsersDto;
-import java.util.ArrayList;
-import java.util.List;
 
 public interface IUsersService {
     int registerNewUser(UsersDto usersDto);
@@ -13,7 +11,7 @@ public interface IUsersService {
     int deleteUser(int id);
     void deleteAccount(AccountEntity account);
     int updateAccountDetails(String login, String password, AccountEntity account);
-    int updateUserDetails(UsersDto usersDto);
+    int updateUserDetails(UsersDto usersUpdateDto);
     UsersDto getUserById(int id);
 
     UsersEntity getUserByAccountId(int id);

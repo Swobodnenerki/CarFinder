@@ -47,29 +47,11 @@ public class InterestController {
     @DeleteMapping("/{userId}/{advertId}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteInterestByUserInterested(@PathVariable ("userId") int userId, @PathVariable ("advertId") int advertId){
-        UsersEntity user = usersDao.findById(userId).get();
-        ArrayList<InterestEntity> interestByAdvert = interestService.getInterestByAdvertId(advertId);
-        ArrayList<InterestEntity> interestByUser = interestService.getInterestByUserId(user.getId());
-        for(InterestEntity interestA: interestByAdvert
-        ){
-            for(InterestEntity interestU: interestByUser){
-                if(interestA.getId() == interestU.getId()) interestService.deleteInterest(interestA.getId());
-            }
-        }
+        interestService.deleteInterestByUserInterested(userId, advertId);
     }
 
     @GetMapping("checkIfUserIsInterested/{userId}/{advertId}")
     public boolean checkIfUserIsInterested(@PathVariable("userId") int userId, @PathVariable("advertId") int advertId){
-        boolean userInterested = false;
-        UsersEntity user = usersDao.findById(userId).get();
-        ArrayList<InterestEntity> interestByAdvert = interestService.getInterestByAdvertId(advertId);
-        ArrayList<InterestEntity> interestByUser = interestService.getInterestByUserId(user.getId());
-        for(InterestEntity interestA: interestByAdvert
-        ){
-            for(InterestEntity interestU: interestByUser){
-                if(interestA.getId() == interestU.getId()) userInterested=true;
-            }
-        }
-        return userInterested;
+        return interestService.checkIfUserIsInterested(userId, advertId);
     }
 }

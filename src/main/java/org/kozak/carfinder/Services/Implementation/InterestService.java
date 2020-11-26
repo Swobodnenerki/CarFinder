@@ -9,6 +9,7 @@ import org.kozak.carfinder.Repositories.API.IUsersDao;
 import org.kozak.carfinder.Services.API.IInterestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 
@@ -56,6 +57,32 @@ public class InterestService implements IInterestService {
     @Override
     public void deleteInterest(int id) {
         interestDao.deleteById(id);
+    }
+    @Override
+    public boolean checkIfUserIsInterested(int userId, int advertId){
+        boolean userInterested = false;
+        UsersEntity user = usersDao.findById(userId).get();
+        ArrayList<InterestEntity> interestByAdvert = this.getInterestByAdvertId(advertId);
+        ArrayList<InterestEntity> interestByUser = this.getInterestByUserId(user.getId());
+        for(InterestEntity interestA: interestByAdvert
+        ){
+            for(InterestEntity interestU: interestByUser){
+                if(interestA.getId() == interestU.getId()) userInterested=true;
+            }
+        }
+        return userInterested;
+    }
+    @Override
+    public void deleteInterestByUserInterested(int userId, int advertId){
+        UsersEntity user = usersDao.findById(userId).get();
+        ArrayList<InterestEntity> interestByAdvert = this.getInterestByAdvertId(advertId);
+        ArrayList<InterestEntity> interestByUser = this.getInterestByUserId(user.getId());
+        for(InterestEntity interestA: interestByAdvert
+        ){
+            for(InterestEntity interestU: interestByUser){
+                if(interestA.getId() == interestU.getId()) this.deleteInterest(interestA.getId());
+            }
+        }
     }
 
 }
