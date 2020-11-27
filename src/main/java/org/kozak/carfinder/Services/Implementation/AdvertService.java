@@ -186,6 +186,13 @@ public class AdvertService implements IAdvertService{
             }
         }
         List<AdvertEntity> allAdverts = advertDao.findAllById(ids);
+        allAdverts.sort(new Comparator<AdvertEntity>() {
+            @Override
+            public int compare(AdvertEntity lhs, AdvertEntity rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                return lhs.getPrice() > rhs.getPrice() ? 1 : (lhs.getPrice() < rhs.getPrice()) ? -1 : 0;
+            }
+        });
         ArrayList<AdvertDto> advertDtos = new ArrayList<>();
         for(AdvertEntity advert : allAdverts
         ){
