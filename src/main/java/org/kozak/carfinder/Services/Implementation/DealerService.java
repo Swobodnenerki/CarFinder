@@ -99,10 +99,10 @@ public class DealerService implements IDealerService {
     }
 
     @Override
-    public int getRoleByAccountId(int accountId) {
-        Optional<AccountEntity> temp = accountsDao.findById(accountId);
-        if(temp.isEmpty()) return 0;
-        RolesEntity role=rolesDao.findRolesEntitiesByAccountByAccountid(temp.get());
+    public int getRoleByUserId(int userId) {
+        Optional<UsersEntity> user = usersDao.findById(userId);
+        AccountEntity account = user.get().getAccountByAccountid();
+        RolesEntity role=rolesDao.findRolesEntitiesByAccountByAccountid(account);
         if(role.getRole().equals("user")) return 0;
         return 1;
     }
@@ -113,11 +113,59 @@ public class DealerService implements IDealerService {
     }
 
     @Override
-    public int getDealerIdByAccountId(int id) {
-        UsersEntity user = usersService.getUserByAccountId(id);
+    public int getDealerIdByUserId(int id) {
+        UsersEntity user = usersDao.findById(id).get();
         Optional<DealerEntity> dealer = Optional.ofNullable(dealerDao.findDealerEntitiesByUsersByUserid(user));
         if(dealer.isEmpty()) return 0;
         int dealerId = dealer.get().getId();
         return dealerId;
     }
+    @Override
+    public DealerDto getDealerDtoByUserId(int userId){
+        UsersEntity user = usersDao.findById(userId).get();
+        int dealerId = this.getDealerIdByUserId(userId);
+        DealerDto dealerDto = new DealerDto();
+        Optional<DealerEntity> dealer = dealerDao.findById(dealerId);
+        if(dealer.isEmpty()) return null;
+        dealerDto.setUserId(userId);
+        dealerDto.setDealerId(dealerId);
+        dealerDto.setFirstName(user.getFirstName());
+        dealerDto.setLastName(user.getLastName());
+        dealerDto.setEmail(user.getEmail());
+        dealerDto.setPhone(user.getPhone());
+        dealerDto.setName(dealer.get().getName());
+        dealerDto.setCity(dealer.get().getCity());
+        dealerDto.setStreet(dealer.get().getStreet());
+        dealerDto.setStreetNumber(dealer.get().getStreetNumber());
+        return dealerDto;
+    }
+
+    @Override
+    public int updateDealerByUserId(DealerDto dealerDto) {
+        int dealerId = this.getDealerIdByUserId(dealerDto.getUserId());
+        Optional<DealerEntity> dealer = dealerDao.findById(dealerId);
+        if(dealer.isEmpty()) return Const.dealerDoesNotExit;
+
+        UsersDto usersDto = new UsersDto();
+        usersDto.setUserId(dealerDto.getUserId());
+        usersDto.setEmail(dealerDto.getEmail());
+        usersDto.setPhone(dealerDto.getPhone());
+        usersDto.setFirstName(dealerDto.getFirstName());
+        usersDto.setLastName(dealerDto.getLastName());
+        int result = usersService.updateUserDetails(usersDto);
+        if (result == Const.emailAlreadyUsed)
+            return Const.emailAlreadyUsed;
+        if(!dealerDto.getName().equals(dealer.get().getName()))
+            dealer.get().setName(dealerDto.getName());
+        if(!dealerDto.getCity().equals(dealerDto.getCity()))
+            dealer.get().setCity(dealerDto.getCity());
+        if(!dealerDto.getStreet().equals(dealerDto.getStreet()))
+            dealer.get().setCity(dealerDto.getCity());
+        if(dealerDto.getStreetNumber()!= dealer.get().getStreetNumber())
+            dealer.get().setStreetNumber(dealerDto.getStreetNumber());
+        dealerDao.save(dealer.get());
+
+        return Const.dealerDetailsUpdateSuccess;
+    }
+
 }

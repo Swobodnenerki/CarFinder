@@ -1,9 +1,6 @@
 package org.kozak.carfinder.Services.Implementation;
 
-import org.kozak.carfinder.Models.UsersEntity;
-import org.kozak.carfinder.Models.UsersDto;
-import org.kozak.carfinder.Models.AccountEntity;
-import org.kozak.carfinder.Models.RolesEntity;
+import org.kozak.carfinder.Models.*;
 import org.kozak.carfinder.Repositories.API.IUsersDao;
 import org.kozak.carfinder.Repositories.API.IAccountDao;
 import org.kozak.carfinder.Repositories.API.IRolesDao;
@@ -89,7 +86,22 @@ public class UsersService implements IUsersService {
 
     @Override
     public int updateUserDetails(UsersDto usersDto) {
-        return 0;
+        Optional<UsersEntity> user = usersDao.findById(usersDto.getUserId());
+        if(user.isEmpty()) return Const.userDoesNotExit;
+
+        if(usersDto.getEmail() != null && !usersDto.getEmail().equals(user.get().getEmail())){
+            if(usersDao.findUsersEntitiesByEmail(usersDto.getEmail()) != null) return Const.emailAlreadyUsed;
+            user.get().setEmail(usersDto.getEmail());
+        }
+        if(!usersDto.getPhone().equals(user.get().getPhone()))
+            user.get().setPhone(usersDto.getPhone());
+        if(!usersDto.getFirstName().equals(user.get().getFirstName()))
+            user.get().setFirstName(usersDto.getFirstName());
+        if(!usersDto.getLastName().equals(user.get().getLastName()))
+            user.get().setLastName(usersDto.getLastName());
+        usersDao.save(user.get());
+
+        return Const.userDetailsUpdateSuccess;
     }
 
     @Override
@@ -110,5 +122,24 @@ public class UsersService implements IUsersService {
     public UsersEntity getUserByAccountId(int id) {
         AccountEntity account = accountsDao.findById(id).get();
         return usersDao.findUsersEntitiesByAccountByAccountid(account);
+    }
+    @Override
+    public AccountEntity getAccountById(int id) {
+        AccountEntity account = accountsDao.findById(id).get();
+        return account;
+    }
+    @Override
+    public UsersDto getUserDtoByAccountId(int id) {
+        UsersDto usersDto = new UsersDto();
+        AccountEntity account = accountsDao.findById(id).get();
+        Optional<UsersEntity> user = Optional.ofNullable(usersDao.findUsersEntitiesByAccountByAccountid(account));
+        if(user.isEmpty()) return null;
+        usersDto.setUserId(user.get().getId());
+        usersDto.setFirstName(user.get().getFirstName());
+        usersDto.setLastName(user.get().getLastName());
+        usersDto.setPhone(user.get().getPhone());
+        usersDto.setEmail(user.get().getEmail());
+        usersDto.setAccountId(user.get().getAccountByAccountid().getId());
+        return usersDto;
     }
 }

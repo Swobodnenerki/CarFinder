@@ -41,7 +41,7 @@ public class UsersController {
     public UsersDto getCurrentUser(Authentication authentication) throws UserNotFoundException{
         UserDetailsImplementation userDetailsImplementation =
                 (UserDetailsImplementation) authentication.getPrincipal();
-        UsersDto user = usersService.getUserById(userDetailsImplementation.getUserAccountsEntity().getId());
+        UsersDto user = usersService.getUserDtoByAccountId(userDetailsImplementation.getUserAccountsEntity().getId());
         if(user == null) throw new UserNotFoundException("There is no such user");
         return user;
     }
@@ -68,19 +68,40 @@ public class UsersController {
         return "Authenticate";
     }
 
-    @GetMapping("/dealerByAccountId/{id}")
-    public int getDealerByUserId(@PathVariable int id){
-        return dealerService.getRoleByAccountId(id);
+    @GetMapping("/role/{accountId}")
+    public int getRoleByUserId(@PathVariable int accountId){
+        return dealerService.getRoleByUserId(accountId);
     }
 
-    @GetMapping("dealerById/{id}")
-    public DealerEntity getDealerById(@PathVariable int id){
-        return dealerService.getDealerById(id);
+    @GetMapping("dealer/{id}")
+    public DealerDto getDealerDtoById(@PathVariable int id){
+        return dealerService.getDealerDtoByUserId(id);
     }
 
-    @GetMapping("dealerIdByAccountId/{accountId}")
-    public int getDealerIdByAccountId(@PathVariable int accountId){
-        return dealerService.getDealerIdByAccountId(accountId);
+    @GetMapping("dealerIdByUserId/{userId}")
+    public int getDealerIdByUserId(@PathVariable int userId){
+        return dealerService.getDealerIdByUserId(userId);
+    }
+    @PutMapping("/user/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateUserDetails(@PathVariable int id, @RequestBody UsersDto user)
+            throws EmailAlreadyUsedException
+    {
+        user.setUserId(id);
+        int result = usersService.updateUserDetails(user);
+        if(result == Const.emailAlreadyUsed)
+            throw new EmailAlreadyUsedException("E-mail is already used!");
+    }
+    @PutMapping("/dealer/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateDealerDetails(@PathVariable int id, @RequestBody DealerDto dealer)
+            throws EmailAlreadyUsedException
+    {
+        dealer.setUserId(id);
+        int result = dealerService.updateDealerByUserId(dealer);
+        if(result == Const.emailAlreadyUsed)
+            throw new EmailAlreadyUsedException("E-mail is already used!");
+
     }
 
 }

@@ -9,6 +9,7 @@ import org.kozak.carfinder.Repositories.API.IUsersDao;
 import org.kozak.carfinder.Services.API.IInterestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 
@@ -46,8 +47,7 @@ public class InterestService implements IInterestService {
     public int addInterest(InterestDto interestDto) {
         InterestEntity interest = new InterestEntity();
         AdvertEntity advert = advertDao.getOne(interestDto.getAdvertId());
-        AccountEntity account = accountDao.getOne(interestDto.getAccountId());
-        UsersEntity user = usersService.getUserByAccountId(account.getId());
+        UsersEntity user = usersDao.getOne(interestDto.getUserId());
         interest.setAdvertByAdvertid(advert);
         interest.setUsersByUserid(user);
         InterestEntity temp = interestDao.save(interest);
@@ -57,6 +57,32 @@ public class InterestService implements IInterestService {
     @Override
     public void deleteInterest(int id) {
         interestDao.deleteById(id);
+    }
+    @Override
+    public boolean checkIfUserIsInterested(int userId, int advertId){
+        boolean userInterested = false;
+        UsersEntity user = usersDao.findById(userId).get();
+        ArrayList<InterestEntity> interestByAdvert = this.getInterestByAdvertId(advertId);
+        ArrayList<InterestEntity> interestByUser = this.getInterestByUserId(user.getId());
+        for(InterestEntity interestA: interestByAdvert
+        ){
+            for(InterestEntity interestU: interestByUser){
+                if(interestA.getId() == interestU.getId()) userInterested=true;
+            }
+        }
+        return userInterested;
+    }
+    @Override
+    public void deleteInterestByUserInterested(int userId, int advertId){
+        UsersEntity user = usersDao.findById(userId).get();
+        ArrayList<InterestEntity> interestByAdvert = this.getInterestByAdvertId(advertId);
+        ArrayList<InterestEntity> interestByUser = this.getInterestByUserId(user.getId());
+        for(InterestEntity interestA: interestByAdvert
+        ){
+            for(InterestEntity interestU: interestByUser){
+                if(interestA.getId() == interestU.getId()) this.deleteInterest(interestA.getId());
+            }
+        }
     }
 
 }

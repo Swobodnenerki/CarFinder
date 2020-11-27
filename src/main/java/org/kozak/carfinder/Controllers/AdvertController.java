@@ -27,17 +27,12 @@ public class AdvertController {
     @Autowired
     UsersService usersService;
 
+
     @GetMapping("/byId/{id}")
     public AdvertEntity getById(@PathVariable int id) throws AdvertNotFoundException{
         AdvertEntity advert = advertService.getAdvertById(id);
         if(advert == null) throw new AdvertNotFoundException("There is no such advert");
         return advert;
-//        return advertService.getAdvertById(id);
-    }
-
-    @GetMapping("/2/byBrand/byModel/byType/byFuelType/byEngine/byGearbox/byTrim/byColour/{brand}/{model}/{type}/{fuelType}/{engine}/{gearbox}/{trim}/{colour}")
-    public ArrayList<AdvertEntity> getAdverts(@PathVariable("brand") String brand, @PathVariable("model") String model, @PathVariable("type") String type, @PathVariable("fuelType") String fuelType, @PathVariable("engine") String engine, @PathVariable("gearbox") String gearbox, @PathVariable("trim") String trim, @PathVariable("colour") String colour){
-        return advertService.getAdverts(brand, model, type, fuelType, engine, gearbox, trim, colour);
     }
 
     @GetMapping("/byBrand/byModel/byType/byFuelType/byEngine/byGearbox/byTrim/byColour/{brand}/{model}/{type}/{fuelType}/{engine}/{gearbox}/{trim}/{colour}")
@@ -45,14 +40,10 @@ public class AdvertController {
         return advertService.getAdvertsWithPhotos(brand, model, type, fuelType, engine, gearbox, trim, colour);
     }
 
-    @GetMapping("/interested/2/{id}")
-    public List<AdvertEntity> getAdvertByUserInterest(@PathVariable int id){
-        return advertService.getAdvertByUserInterest(id);
-    }
-    @GetMapping("/interested/{accountId}")
-    public ArrayList<AdvertDto> getAdvertByUserInterestWithPhotos(@PathVariable int accountId){
-        UsersEntity user = usersService.getUserByAccountId(accountId);
-        return advertService.getAdvertByUserInterestWithPhotos(user.getId());
+
+    @GetMapping("/interested/{userId}")
+    public ArrayList<AdvertDto> getAdvertByUserInterestWithPhotos(@PathVariable int userId){
+        return advertService.getAdvertByUserInterestWithPhotos(userId);
     }
 
     @PostMapping("/dealer")
@@ -70,7 +61,12 @@ public class AdvertController {
         return photoService.getFirstPhoto(id);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @GetMapping("/byCity/{city}")
+    public ArrayList<AdvertDto> getAdvertsByCity(@PathVariable String city){
+        return advertService.getAdvertsByCity(city);
+    }
+
+    @DeleteMapping("/dealer/{id}")
     public void deleteEvent(@PathVariable int id) throws AdvertNotFoundException{
         int result = advertService.deleteAdvert(id);
         if(result == Const.advertDoesNotExist)

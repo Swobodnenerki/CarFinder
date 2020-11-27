@@ -175,7 +175,32 @@ public class AdvertService implements IAdvertService{
     }
 
     @Override
-    public List<AdvertEntity> getSortedByPrice(String price, String sortType) {
-        return null;
+    public ArrayList<AdvertDto> getAdvertsByCity(String city) {
+        List<Integer> ids = new ArrayList<>();
+        ArrayList<AdvertEntity> adverts = new ArrayList<>();
+        List<DealerEntity> dealers = dealerDao.findAllByCity(city);
+        for(DealerEntity dealer : dealers){
+            adverts = advertDao.findAllByDealerByDealerid(dealer);
+            for(AdvertEntity advert: adverts){
+                ids.add(advert.getId());
+            }
+        }
+        List<AdvertEntity> allAdverts = advertDao.findAllById(ids);
+        allAdverts.sort(new Comparator<AdvertEntity>() {
+            @Override
+            public int compare(AdvertEntity lhs, AdvertEntity rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                return lhs.getPrice() > rhs.getPrice() ? 1 : (lhs.getPrice() < rhs.getPrice()) ? -1 : 0;
+            }
+        });
+        ArrayList<AdvertDto> advertDtos = new ArrayList<>();
+        for(AdvertEntity advert : allAdverts
+        ){
+            advertDtos.add(setUPAdvertDto(advert));
+        }
+        return advertDtos;
     }
+
+
+
 }

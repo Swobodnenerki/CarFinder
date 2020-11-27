@@ -9,9 +9,12 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 @Transactional
 public interface IDealerDao extends JpaRepository<DealerEntity, Integer> {
     DealerEntity findDealerEntitiesByUsersByUserid(UsersEntity user);
+    DealerEntity findDealerEntitiesByCity(String city);
+    List<DealerEntity> findAllByCity(String city);
 }
