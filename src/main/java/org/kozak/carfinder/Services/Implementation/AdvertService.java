@@ -142,6 +142,9 @@ public class AdvertService implements IAdvertService{
 
     @Override
     public int addAdvert(AdvertDto advertDto) {
+        if(advertDto.getUrl().length()>500){
+            return Const.urlToLang;
+        }
         AdvertEntity advert = new AdvertEntity();
         DealerEntity dealer = dealerDao.getOne(advertDto.getDealerId());
         advert.setBrand(advertDto.getBrand());
@@ -158,6 +161,7 @@ public class AdvertService implements IAdvertService{
 //        PhotoService photo = new PhotoService();
         PhotosEntity photo = new PhotosEntity();
         photo.setUrl(advertDto.getUrl());
+
         photo.setAdvertByAdvertid(advert);
         photosDao.save(photo);
 //        photo.addPhoto(advertDto.getUrl(),advert);

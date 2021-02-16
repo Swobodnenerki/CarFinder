@@ -13,6 +13,7 @@ public final class Const {
 
     //Error codes
     public static final int emailAlreadyUsed = 1;
+    public static final int urlToLang = 0;
     public static final int loginAlreadyUsed = 2;
     public static final int userDoesNotExit = 3;
     public static final int dealerDoesNotExit = 4;

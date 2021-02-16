@@ -2,6 +2,7 @@ package org.kozak.carfinder.Controllers;
 
 import org.kozak.carfinder.Models.*;
 import org.kozak.carfinder.Services.Exceptions.AdvertNotFoundException;
+import org.kozak.carfinder.Services.Exceptions.UrlToLongException;
 import org.kozak.carfinder.Services.Implementation.AdvertService;
 import org.kozak.carfinder.Services.Const;
 import org.kozak.carfinder.Services.Implementation.PhotoService;
@@ -47,8 +48,12 @@ public class AdvertController {
     }
 
     @PostMapping("/dealer")
-    public int addAdvert(@RequestBody AdvertDto advertDto){
-        return advertService.addAdvert(advertDto);
+    public int addAdvert(@RequestBody AdvertDto advertDto) throws UrlToLongException{
+        int result = advertService.addAdvert(advertDto);
+        if(result == Const.urlToLang){
+            throw new UrlToLongException("URL address is to long");
+        }
+        return result;
     }
 
     @GetMapping("/dealer/{id}")

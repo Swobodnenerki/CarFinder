@@ -68,9 +68,9 @@ public class UsersController {
         return "Authenticate";
     }
 
-    @GetMapping("/role/{accountId}")
-    public int getRoleByUserId(@PathVariable int accountId){
-        return dealerService.getRoleByUserId(accountId);
+    @GetMapping("/role/{userId}")
+    public int getRoleByUserId(@PathVariable int userId){
+        return dealerService.getRoleByUserId(userId);
     }
 
     @GetMapping("dealer/{id}")
